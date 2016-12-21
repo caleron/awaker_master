@@ -24,9 +24,9 @@ extern "C" void updateAndDhcp();
 
 extern "C" bool available();
 
-extern "C" unsigned char peekType();
+extern "C" int16_t peekType();
 
-extern "C" uint16_t readNext(unsigned char* type, char *returnArray, const uint16_t maxSize);
+extern "C" int16_t readNext(int16_t *type, int16_t *sender, char *returnArray, const int16_t maxSize);
 
 //std::vector<uint8_t > readMessage();
 

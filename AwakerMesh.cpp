@@ -25,20 +25,22 @@ extern "C" bool available() {
     return network.available();
 }
 
-extern "C" unsigned char peekType() {
+extern "C" int16_t peekType() {
     RF24NetworkHeader header;
     network.peek(header);
-    return header.type;
+    return static_cast<int16_t > (header.type);
 }
 
-extern "C" uint16_t readNext(unsigned char* type, char *returnArray, const uint16_t maxSize) {
+extern "C" int16_t readNext(int16_t *type, int16_t *sender, char *returnArray, const int16_t maxSize) {
     RF24NetworkHeader header;
     network.peek(header);
-    *type = header.type;
 
-    uint16_t bytesRead = network.read(header, returnArray, maxSize);
+    *type = static_cast<int16_t > (header.type);
+    *sender = mesh.getNodeID(header.from_node);
 
-    return bytesRead;
+    uint16_t bytesRead = network.read(header, returnArray, static_cast<uint16_t > (maxSize));
+
+    return static_cast<int16_t > (bytesRead);
 }
 
 //std::vector<uint8_t> readMessage() {
